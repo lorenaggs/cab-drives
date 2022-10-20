@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Driver extends Model
+class Drivers extends Model
 {
     use HasFactory;
 
-    public function driverAssignation(){
-        return $this->hasMany(VehicleDriver::class);
+    public function assignation(){
+        return $this->hasMany(VehicleDriver::class, 'driver_id');
     }
 }

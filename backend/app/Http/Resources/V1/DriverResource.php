@@ -19,7 +19,8 @@ class DriverResource extends JsonResource
             'dni'=>$this->dni,
             'name'=>$this->name,
             'lastName'=>$this->last_name,
-            'phone'=>$this->phone
+            'phone'=>$this->phone,
+            'vehicleDrivers'=> VehicleDriverResource::collection($this->whenLoaded('assignation'))
        ];
     }
 }

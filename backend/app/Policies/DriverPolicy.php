@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Driver;
+use App\Models\Drivers;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class DriverPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Driver  $driver
+     * @param  \App\Models\Drivers  $driver
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Driver $driver)
+    public function view(User $user, Drivers $driver)
     {
         //
     }
@@ -48,10 +48,10 @@ class DriverPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Driver  $driver
+     * @param  \App\Models\Drivers  $driver
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Driver $driver)
+    public function update(User $user, Drivers $driver)
     {
         //
     }
@@ -60,10 +60,10 @@ class DriverPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Driver  $driver
+     * @param  \App\Models\Drivers  $driver
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Driver $driver)
+    public function delete(User $user, Drivers $driver)
     {
         //
     }
@@ -72,10 +72,10 @@ class DriverPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Driver  $driver
+     * @param  \App\Models\Drivers  $driver
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Driver $driver)
+    public function restore(User $user, Drivers $driver)
     {
         //
     }
@@ -84,10 +84,10 @@ class DriverPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Driver  $driver
+     * @param  \App\Models\Drivers  $driver
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Driver $driver)
+    public function forceDelete(User $user, Drivers $driver)
     {
         //
     }

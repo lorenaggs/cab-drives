@@ -19,7 +19,9 @@ class VehicleDriverResource extends JsonResource
             'driverId'=>$this->driver_id,
             'vehicleId'=>$this->vehicle_id,
             'dateStart'=>$this->date_init,
-            'dateEnd'=>$this->date_end
+            'dateEnd'=>$this->date_end,
+            'driver'=> new DriverResource($this->whenLoaded('driver')),
+            'vehicle'=> new VehicleResource($this->whenLoaded('vehicle'))
         ];
     }
 }

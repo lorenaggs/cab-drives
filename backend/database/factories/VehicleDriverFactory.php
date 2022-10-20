@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Driver;
+use App\Models\Drivers;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +16,7 @@ class VehicleDriverFactory extends Factory
     public function definition()
     {
         return [
-            'driver_id'=> Driver::factory(),
+            'driver_id'=> Drivers::factory(),
             'vehicle_id'=> Vehicle::factory(),
             'date_init' => $this->faker->dateTimeBetween('-3 month', '+5 month')->getTimestamp(),
             'date_end' => $this->faker->dateTimeBetween('-3 month', '+5 month')->getTimestamp(),

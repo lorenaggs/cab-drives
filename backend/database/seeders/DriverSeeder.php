@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Driver;
+use App\Models\Drivers;
 use App\Models\Vehicle;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class DriverSeeder extends Seeder
      */
     public function run()
     {
-        Driver::factory()
+        Drivers::factory()
             ->count(25)
             ->create();
 

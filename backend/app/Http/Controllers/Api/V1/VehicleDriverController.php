@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Filters\V1\DriverFilter;
+use App\Filters\V1\VehicleDriverFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVehicleDriverRequest;
 use App\Http\Requests\UpdateVehicleDriverRequest;
+use App\Http\Resources\V1\DriverCollection;
 use App\Http\Resources\V1\VehicleDriverCollection;
 use App\Http\Resources\V1\VehicleDriverResource;
+use App\Models\Drivers;
 use App\Models\VehicleDriver;
+use Illuminate\Http\Request;
 
 class VehicleDriverController extends Controller
 {
@@ -16,11 +21,29 @@ class VehicleDriverController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+//    public function index()
+//    {
+////        $filter = new Vehi
+//        return new VehicleDriverCollection(VehicleDriver::all());
+//    }
+    public function index(Request $request)
     {
-        return new VehicleDriverCollection(VehicleDriver::class);
-    }
+        $filter = new VehicleDriverFilter();
+        $queryItems = $filter->transform($request);//[['column', 'operator', 'value']]
+        $includeDrivers = $request->query('includeDrivers');
+        $includeVehicles = $request->query('includeVehicles');
+        $vehicleDriver = VehicleDriver::where($queryItems);
 
+        if( $includeDrivers ){
+            $vehicleDriver = $vehicleDriver->with('driver');
+        }
+        if( $includeVehicles ){
+            $vehicleDriver = $vehicleDriver->with('vehicle');
+        }
+
+        return new VehicleDriverCollection($vehicleDriver->get());
+
+    }
     /**
      * Show the form for creating a new resource.
      *

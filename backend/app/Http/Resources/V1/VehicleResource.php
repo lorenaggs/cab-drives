@@ -19,6 +19,7 @@ class VehicleResource extends JsonResource
             'brand'=>$this->brand,
             'model'=>$this->model,
             'year'=>$this->year,
+            'vehicleDrivers'=> VehicleDriverResource::collection($this->whenLoaded('assignation'))
         ];
     }
 }
