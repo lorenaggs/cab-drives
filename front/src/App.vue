@@ -1,19 +1,21 @@
 <template>
   <Header />
   <Assignations />
-  <VehiclesDrives/>
+  <VehiclesDrives />
+  
 </template>
 
 <script>
 import Header from "./components/Header.vue";
 import Assignations from "./components/Assignations";
-import VehiclesDrives from "./components/VehiclesDrives"
+import VehiclesDrives from "./components/VehiclesDrives";
+
 export default {
   name: "App",
   components: {
     Header,
     Assignations,
-    VehiclesDrives
+    VehiclesDrives,
   },
 };
 </script>
@@ -26,6 +28,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  background: #cb9a9a;
 }
 </style>
