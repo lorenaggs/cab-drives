@@ -13,7 +13,7 @@ class StoreVehicleDriverRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class StoreVehicleDriverRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'driverId' => ['required'],
+            'vehicleId' => ['required'],
+            'dateInit' => ['required'],
+            'dateEnd' => ['required'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'driver_id'=>$this->driverId,
+            'vehicle_id'=>$this->vehicleId,
+            'date_init'=>$this->dateInit,
+            'date_end'=>$this->dateEnd,
+        ]);
     }
 }

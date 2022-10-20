@@ -9,6 +9,12 @@ class VehicleDriver extends Model
 {
     use HasFactory;
     protected $table = 'vehicle_drivers';
+    protected $fillable = [
+        'driver_id',
+        'vehicle_id',
+        'date_init',
+        'date_end'
+    ];
 
     public function driver()
     {

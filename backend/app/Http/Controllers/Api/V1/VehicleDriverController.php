@@ -62,7 +62,9 @@ class VehicleDriverController extends Controller
      */
     public function store(StoreVehicleDriverRequest $request)
     {
-        //
+        $vehicleDriver = VehicleDriver::created($request->all());
+//        return new VehicleDriverResource();
+        return response($vehicleDriver, 201);
     }
 
     /**

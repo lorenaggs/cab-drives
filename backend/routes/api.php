@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 //api/v1
 
@@ -25,3 +25,5 @@ Route::group(['prefix' => 'v1', 'namespace'=> 'App\Http\Controllers\Api\V1'], fu
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('assignations', VehicleDriverController::class);
 });
+
+//Route::post('test', 'App\Http\Controllers\Api\V1\VehicleDriverController@store');
