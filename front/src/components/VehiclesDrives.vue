@@ -1,9 +1,4 @@
 <template>
-  <div v-if="type === 'A'">A</div>
-  <div v-else-if="type === 'B'">B</div>
-  <div v-else-if="type === 'C'">C</div>
-  <div v-else>Si no es A, B o C</div>
-
   <div class="hello">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
@@ -220,7 +215,7 @@
           <th scope="row">Lastname</th>
           <th scope="row">Phone</th>
           <th scope="row">Date init</th>
-          <th scope="row">date end</th>
+          <th scope="row">Date end</th>
         </tr>
       </thead>
       <tbody>
@@ -228,14 +223,26 @@
           v-for="assignmentHistory in assignmentHistory"
           :key="assignmentHistory.id"
         >
-          <th scope="row">{{ assignmentHistory.id }}</th>
+          <th scope="row">{{ assignmentHistory.vehicleId }}</th>
           <td>{{ assignmentHistory.driver.id }}</td>
           <td>{{ assignmentHistory.driver.dni }}</td>
           <td>{{ assignmentHistory.driver.name }}</td>
           <td>{{ assignmentHistory.driver.lastName }}</td>
           <td>{{ assignmentHistory.driver.phone }}</td>
-          <td>{{ assignmentHistory.dateInit }}</td>
-          <td>{{ assignmentHistory.dateEnd }}</td>
+          <td>
+            {{
+              new Date(assignmentHistory.dateInit * 1000).toLocaleDateString(
+                "en-US"
+              )
+            }}
+          </td>
+          <td>
+            {{
+              new Date(assignmentHistory.dateEnd * 1000).toLocaleDateString(
+                "en-US"
+              )
+            }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -248,11 +255,11 @@ import axios from "axios";
 export default {
   name: "VehiclesDrives",
   data: () => ({
-    type: "A",
+    moment: "",
     result: [],
     resultDrives: [],
     assignmentHistory: [],
-    idDrives: [],
+
     selectedCity1: null,
 
     date1: null,
@@ -342,7 +349,6 @@ export default {
     closeBasic() {
       this.displayBasic = false;
     },
-
     openModal() {
       this.displayModal = true;
     },
