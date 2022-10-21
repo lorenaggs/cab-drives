@@ -164,44 +164,51 @@
     :style="{ width: '70vw' }"
   >
     <h2>Drives list</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="row">Assign to</th>
-          <th scope="row">Range date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <Dropdown
-            v-model="selectedCity1"
-            :options="resultDrives"
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Select a Drive"
-          />
-          <td>
-            <div class="field col-12 md:col-4">
-              <Calendar
-                :inputId="resultDrives.id"
-                v-model="dates2"
-                selectionMode="range"
-                :manualInput="false"
-                :showIcon="true"
-              />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <form>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="row">Assign to</th>
+            <th scope="row">Range date</th>
+            <th scope="row"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <Dropdown
+              v-model="form.driverId"
+              :options="resultDrives"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="Select a Drive"
+            />
+            <td>
+              <div class="field col-12 md:col-4">
+                <Calendar
+                  :inputId="resultDrives.id"
+                  v-model="form.date"
+                  selectionMode="range"
+                  :manualInput="false"
+                  :showIcon="true"
+                />
+              </div>
+            </td>
+            <td>
+              <span class="p-buttonset">
+                <Button
+                  v-on:click="guardar()"
+                  label="to assign"
+                  icon="pi pi-check"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
     <template #footer>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        @click="closeBasic"
-        class="p-button-text"
-      />
-      <Button label="Save" icon="pi pi-check" @click="closeBasic" autofocus />
+      <Button label="Close" icon="pi pi-check" @click="closeBasic" autofocus />
     </template>
 
     <h2>Assignment history</h2>
@@ -255,32 +262,12 @@ import axios from "axios";
 export default {
   name: "VehiclesDrives",
   data: () => ({
-    moment: "",
+    form: { driverId: "", date: "", vehicleId: "" },
+
     result: [],
     resultDrives: [],
     assignmentHistory: [],
 
-    selectedCity1: null,
-
-    date1: null,
-    date2: null,
-    date3: null,
-    date4: null,
-    date5: null,
-    date6: null,
-    date7: null,
-    date8: null,
-    date9: null,
-    date10: null,
-    date11: null,
-    date12: null,
-    date13: null,
-    date14: null,
-    dates1: null,
-    dates2: null,
-    minDate: null,
-    maxDate: null,
-    invalidDates: null,
     responsiveOptions: [
       {
         breakpoint: "1400px",
@@ -310,6 +297,7 @@ export default {
     });
     axios.get("http://127.0.0.1:8000/api/v1/drivers").then((result) => {
       this.resultDrives = result.data.data;
+      //console.log(resultDrives.id);
     });
 
     // this.assignmentHistory = result.})
@@ -345,6 +333,7 @@ export default {
         });
 
       this.displayBasic = true;
+      this.form.vehicleId = id;
     },
     closeBasic() {
       this.displayBasic = false;
@@ -354,6 +343,33 @@ export default {
     },
     closeModal() {
       this.displayModal = false;
+    },
+
+    guardar() {
+      const dataDriver = {
+        driverId: this.form.driverId,
+        vehicleId: this.form.vehicleId,
+        dateInit: this.form.date[0].getTime(),
+        dateEnd: this.form.date[1].getTime(),
+      };
+      console.log(dataDriver);
+
+      axios
+        .post("http://127.0.0.1:8000/api/v1/assignations", dataDriver)
+        .then((data) => console.log(data))
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      axios
+        .get(
+          `http://127.0.0.1:8000/api/v1/assignations?vehicleId[eq]=${dataDriver.vehicleId}&includeDrivers=true`
+        )
+        .then((result) => {
+          this.assignmentHistory = result.data.data;
+        });
+
+      console.log(this.form.driverId);
     },
   },
 };
