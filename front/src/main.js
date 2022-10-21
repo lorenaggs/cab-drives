@@ -17,6 +17,8 @@ import Button from "primevue/button";
 import RadioButton from "primevue/radiobutton";
 import DynamicDialog from "primevue/dynamicdialog";
 import Dropdown from "primevue/dropdown";
+//import moment from "moment/moment";
+//import VueMoment from "vue-moment";
 
 const app = createApp(App);
 app.use(PrimeVue);
@@ -25,7 +27,8 @@ app.use(Dialog);
 app.use(Button);
 app.use(RadioButton);
 app.use(DynamicDialog);
-app.use(Dropdown);
+//app.use(moment);
+//app.use(VueMoment);
 
 app.mount("#app");
 
