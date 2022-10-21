@@ -26,6 +26,7 @@ app.use(Button);
 app.use(RadioButton);
 app.use(DynamicDialog);
 app.use(Dropdown);
+
 app.mount("#app");
 
 app.component("Calendar", Calendar);

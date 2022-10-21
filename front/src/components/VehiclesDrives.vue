@@ -45,10 +45,10 @@
 
                   <td>
                     <Button
-                      :id="resultDrives.id"
+                      :id="result.id"
                       label="Show drivers"
                       icon="pi pi-external-link"
-                      @click="openBasic"
+                      @click="openBasic(result.id)"
                     />
                   </td>
                 </tr>
@@ -163,11 +163,12 @@
   </div>
 
   <Dialog
-    header="Drives list"
+    header=""
     v-model:visible="displayBasic"
     :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
     :style="{ width: '70vw' }"
   >
+    <h2>Drives list</h2>
     <table class="table">
       <thead>
         <tr>
@@ -207,6 +208,37 @@
       />
       <Button label="Save" icon="pi pi-check" @click="closeBasic" autofocus />
     </template>
+
+    <h2>Assignment history</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id Vehicle</th>
+          <th scope="row">Id driver</th>
+          <th scope="row">DNI</th>
+          <th scope="row">Name</th>
+          <th scope="row">Lastname</th>
+          <th scope="row">Phone</th>
+          <th scope="row">Date init</th>
+          <th scope="row">date end</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="assignmentHistory in assignmentHistory"
+          :key="assignmentHistory.id"
+        >
+          <th scope="row">{{ assignmentHistory.id }}</th>
+          <td>{{ assignmentHistory.driver.id }}</td>
+          <td>{{ assignmentHistory.driver.dni }}</td>
+          <td>{{ assignmentHistory.driver.name }}</td>
+          <td>{{ assignmentHistory.driver.lastName }}</td>
+          <td>{{ assignmentHistory.driver.phone }}</td>
+          <td>{{ assignmentHistory.dateInit }}</td>
+          <td>{{ assignmentHistory.dateEnd }}</td>
+        </tr>
+      </tbody>
+    </table>
   </Dialog>
 </template>
 
@@ -219,7 +251,8 @@ export default {
     type: "A",
     result: [],
     resultDrives: [],
-
+    assignmentHistory: [],
+    idDrives: [],
     selectedCity1: null,
 
     date1: null,
@@ -271,6 +304,8 @@ export default {
     axios.get("http://127.0.0.1:8000/api/v1/drivers").then((result) => {
       this.resultDrives = result.data.data;
     });
+
+    // this.assignmentHistory = result.})
     {
       let today = new Date();
       let month = today.getMonth();
@@ -293,87 +328,29 @@ export default {
   },
 
   methods: {
-    openBasic() {
-      console.log("ingresa");
+    openBasic(id) {
+      axios
+        .get(
+          `http://127.0.0.1:8000/api/v1/assignations?vehicleId[eq]=${id}&includeDrivers=true`
+        )
+        .then((result) => {
+          this.assignmentHistory = result.data.data;
+        });
+
       this.displayBasic = true;
     },
     closeBasic() {
       this.displayBasic = false;
     },
-    openBasic2() {
-      this.displayBasic2 = true;
-    },
-    closeBasic2() {
-      this.displayBasic2 = false;
-    },
-    openResponsive() {
-      this.displayResponsive = true;
-    },
-    closeResponsive() {
-      this.displayResponsive = false;
-    },
+
     openModal() {
       this.displayModal = true;
     },
     closeModal() {
       this.displayModal = false;
     },
-    openConfirmation() {
-      this.displayConfirmation = true;
-    },
-    closeConfirmation() {
-      this.displayConfirmation = false;
-    },
-    openMaximizable() {
-      this.displayMaximizable = true;
-    },
-    closeMaximizable() {
-      this.displayMaximizable = false;
-    },
-    openPosition(position) {
-      this.position = position;
-      this.displayPosition = true;
-    },
-    closePosition() {
-      this.displayPosition = false;
-    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
-.p-button {
-  margin: 0.3rem 0.5rem;
-  min-width: 10rem;
-}
-
-p {
-  margin: 0;
-}
-
-.confirmation-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.p-dialog .p-button {
-  min-width: 6rem;
-}
-</style>
