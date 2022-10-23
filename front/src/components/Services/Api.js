@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class ApiService {
-  /*async getVehicles(id) {
+  async getAssignmentHistory(id) {
     let assignmentHistory = [];
 
     const resp = await axios.get(
@@ -9,7 +9,7 @@ class ApiService {
     );
     assignmentHistory = resp.data.data;
     return assignmentHistory;
-  }*/
+  }
 
   async getVehicles() {
     let vehicles = [];
@@ -30,5 +30,5 @@ class ApiService {
 
 export const $api = {
   apiService: new ApiService(),
-  
+
 };

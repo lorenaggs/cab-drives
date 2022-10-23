@@ -318,14 +318,8 @@ export default {
   },
 
   methods: {
-    openBasic(id) {
-      axios
-        .get(
-          `http://127.0.0.1:8000/api/v1/assignations?vehicleId[eq]=${id}&includeDrivers=true`
-        )
-        .then((result) => {
-          this.assignmentHistory = result.data.data;
-        });
+    async openBasic(id) {
+      this.assignmentHistory = await this.apiServices.getAssignmentHistory(id);
 
       this.displayBasic = true;
       this.form.vehicleId = id;
