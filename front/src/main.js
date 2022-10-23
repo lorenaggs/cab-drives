@@ -17,8 +17,11 @@ import Button from "primevue/button";
 import RadioButton from "primevue/radiobutton";
 import DynamicDialog from "primevue/dynamicdialog";
 import Dropdown from "primevue/dropdown";
-//import moment from "moment/moment";
-//import VueMoment from "vue-moment";
+
+import ConfirmationService from "primevue/confirmationservice";
+
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const app = createApp(App);
 app.use(PrimeVue);
@@ -27,8 +30,9 @@ app.use(Dialog);
 app.use(Button);
 app.use(RadioButton);
 app.use(DynamicDialog);
-//app.use(moment);
-//app.use(VueMoment);
+app.use(ConfirmationService);
+app.use(VueSweetalert2);
+
 
 app.mount("#app");
 
@@ -38,3 +42,4 @@ app.component("Button", Button);
 app.component("RadioButton", RadioButton);
 app.component("DynamicDialog", DynamicDialog);
 app.component("Dropdown", Dropdown);
+app.component("ConfirmationService", ConfirmationService);

@@ -193,6 +193,7 @@
               </div>
             </td>
             <td>
+              
               <span class="p-buttonset">
                 <Button
                   v-on:click="guardar()"
@@ -349,6 +350,7 @@ export default {
         );
       }
     },
+    
   },
 };
 </script>
