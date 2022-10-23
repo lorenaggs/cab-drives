@@ -191,6 +191,7 @@
                   selectionMode="range"
                   :manualInput="false"
                   :showIcon="true"
+                  dateFormat="yy-dd-mm"
                 />
               </div>
             </td>
@@ -258,10 +259,12 @@
 
 <script>
 import axios from "axios";
+import { $api } from "./Services/Api";
 
 export default {
   name: "VehiclesDrives",
   data: () => ({
+    apiServices: $api.apiService,
     form: { driverId: "", date: "", vehicleId: "" },
 
     result: [],
@@ -291,16 +294,13 @@ export default {
     position: "center",
   }),
 
-  created() {
-    axios.get("http://127.0.0.1:8000/api/v1/vehicles").then((result) => {
-      this.result = result.data.data;
-    });
+  async created() {
     axios.get("http://127.0.0.1:8000/api/v1/drivers").then((result) => {
       this.resultDrives = result.data.data;
-      //console.log(resultDrives.id);
     });
 
-    // this.assignmentHistory = result.})
+    this.result = await this.apiServices.getVehicles();
+
     {
       let today = new Date();
       let month = today.getMonth();
@@ -349,27 +349,25 @@ export default {
       const dataDriver = {
         driverId: this.form.driverId,
         vehicleId: this.form.vehicleId,
-        dateInit: this.form.date[0].getTime(),
-        dateEnd: this.form.date[1].getTime(),
+        dateInit: Math.floor(this.form.date[0].getTime() / 1000),
+        dateEnd: Math.floor(this.form.date[1].getTime() / 1000),
       };
-      console.log(dataDriver);
 
       axios
         .post("http://127.0.0.1:8000/api/v1/assignations", dataDriver)
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data);
+          axios
+            .get(
+              `http://127.0.0.1:8000/api/v1/assignations?vehicleId[eq]=${dataDriver.vehicleId}&includeDrivers=true`
+            )
+            .then((result) => {
+              this.assignmentHistory = result.data.data;
+            });
+        })
         .catch(function (error) {
           console.log(error);
         });
-
-      axios
-        .get(
-          `http://127.0.0.1:8000/api/v1/assignations?vehicleId[eq]=${dataDriver.vehicleId}&includeDrivers=true`
-        )
-        .then((result) => {
-          this.assignmentHistory = result.data.data;
-        });
-
-      console.log(this.form.driverId);
     },
   },
 };
