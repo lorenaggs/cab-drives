@@ -32,18 +32,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="result in result" :key="result.id">
-                  <th scope="row">{{ result.id }}</th>
-                  <td>{{ result.brand }}</td>
-                  <td>{{ result.model }}</td>
-                  <td>{{ result.year }}</td>
+                <tr v-for="vehicle in vehicle" :key="vehicle.id">
+                  <th scope="row">{{ vehicle.id }}</th>
+                  <td>{{ vehicle.brand }}</td>
+                  <td>{{ vehicle.model }}</td>
+                  <td>{{ vehicle.year }}</td>
 
                   <td>
                     <Button
-                      :id="result.id"
+                      :id="vehicle.id"
                       label="Show drivers"
                       icon="pi pi-external-link"
-                      @click="openBasic(result.id)"
+                      @click="openBasic(vehicle.id)"
                     />
                   </td>
                 </tr>
@@ -86,15 +86,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="resultDrives in resultDrives"
-                    :key="resultDrives.id"
-                  >
-                    <th scope="row">{{ resultDrives.id }}</th>
-                    <td>{{ resultDrives.dni }}</td>
-                    <td>{{ resultDrives.name }}</td>
-                    <td>{{ resultDrives.lastName }}</td>
-                    <td>{{ resultDrives.phone }}</td>
+                  <tr v-for="drive in drive" :key="drive.id">
+                    <th scope="row">{{ drive.id }}</th>
+                    <td>{{ drive.dni }}</td>
+                    <td>{{ drive.name }}</td>
+                    <td>{{ drive.lastName }}</td>
+                    <td>{{ drive.phone }}</td>
                     <td>
                       <Button
                         label="Show vehicles"
@@ -178,7 +175,7 @@
           <tr>
             <Dropdown
               v-model="form.driverId"
-              :options="resultDrives"
+              :options="drive"
               optionLabel="name"
               optionValue="id"
               placeholder="Select a Drive"
@@ -186,7 +183,7 @@
             <td>
               <div class="field col-12 md:col-4">
                 <Calendar
-                  :inputId="resultDrives.id"
+                  :inputId="drive.id"
                   v-model="form.date"
                   selectionMode="range"
                   :manualInput="false"
@@ -267,8 +264,8 @@ export default {
     apiServices: $api.apiService,
     form: { driverId: "", date: "", vehicleId: "" },
 
-    result: [],
-    resultDrives: [],
+    vehicle: [],
+    drive: [],
     assignmentHistory: [],
 
     responsiveOptions: [
@@ -295,11 +292,9 @@ export default {
   }),
 
   async created() {
-    axios.get("http://127.0.0.1:8000/api/v1/drivers").then((result) => {
-      this.resultDrives = result.data.data;
-    });
+    this.vehicle = await this.apiServices.getVehicles();
 
-    this.result = await this.apiServices.getVehicles();
+    this.drive = await this.apiServices.getDrives();
 
     {
       let today = new Date();

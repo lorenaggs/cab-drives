@@ -18,8 +18,17 @@ class ApiService {
     vehicles = resp.data.data;
     return vehicles;
   }
+
+  async getDrives() {
+    let drives = [];
+
+    const resp = await axios.get("http://127.0.0.1:8000/api/v1/drivers");
+    drives = resp.data.data;
+    return drives;
+  }
 }
 
 export const $api = {
   apiService: new ApiService(),
+  
 };
