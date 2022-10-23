@@ -255,7 +255,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { $api } from "./Services/Api";
 
 export default {
@@ -334,7 +333,7 @@ export default {
       this.displayModal = false;
     },
 
-    guardar() {
+    async guardar() {
       const dataDriver = {
         driverId: this.form.driverId,
         vehicleId: this.form.vehicleId,
@@ -342,21 +341,13 @@ export default {
         dateEnd: Math.floor(this.form.date[1].getTime() / 1000),
       };
 
-      axios
-        .post("http://127.0.0.1:8000/api/v1/assignations", dataDriver)
-        .then((data) => {
-          console.log(data);
-          axios
-            .get(
-              `http://127.0.0.1:8000/api/v1/assignations?vehicleId[eq]=${dataDriver.vehicleId}&includeDrivers=true`
-            )
-            .then((result) => {
-              this.assignmentHistory = result.data.data;
-            });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      const statusResp = await this.apiServices.sendAssignments(dataDriver);
+
+      if (statusResp.status === 201) {
+        this.assignmentHistory = await this.apiServices.getAssignmentHistory(
+          dataDriver.vehicleId
+        );
+      }
     },
   },
 };
