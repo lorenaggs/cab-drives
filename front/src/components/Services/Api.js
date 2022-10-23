@@ -30,5 +30,4 @@ class ApiService {
 
 export const $api = {
   apiService: new ApiService(),
-
 };
