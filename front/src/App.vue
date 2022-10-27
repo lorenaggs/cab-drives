@@ -1,20 +1,19 @@
 <template>
   <Header />
-  <Assignations />
+
   <VehiclesDrives />
-  
 </template>
 
 <script>
 import Header from "./components/Header.vue";
-import Assignations from "./components/Assignations";
+
 import VehiclesDrives from "./components/VehiclesDrives";
 
 export default {
   name: "App",
   components: {
     Header,
-    Assignations,
+
     VehiclesDrives,
   },
 };

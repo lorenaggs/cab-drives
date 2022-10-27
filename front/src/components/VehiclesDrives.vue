@@ -193,7 +193,6 @@
               </div>
             </td>
             <td>
-              
               <span class="p-buttonset">
                 <Button
                   v-on:click="guardar()"
@@ -343,14 +342,15 @@ export default {
       };
 
       const statusResp = await this.apiServices.sendAssignments(dataDriver);
-
       if (statusResp.status === 201) {
         this.assignmentHistory = await this.apiServices.getAssignmentHistory(
           dataDriver.vehicleId
         );
       }
+
+      this.form.date = "";
+      this.form.driverId = "";
     },
-    
   },
 };
 </script>
