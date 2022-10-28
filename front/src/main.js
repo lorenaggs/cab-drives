@@ -19,6 +19,7 @@ import DynamicDialog from "primevue/dynamicdialog";
 import Dropdown from "primevue/dropdown";
 
 import ConfirmationService from "primevue/confirmationservice";
+import Message from "primevue/message";
 
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -32,7 +33,7 @@ app.use(RadioButton);
 app.use(DynamicDialog);
 app.use(ConfirmationService);
 app.use(VueSweetalert2);
-
+app.use(Message);
 
 app.mount("#app");
 

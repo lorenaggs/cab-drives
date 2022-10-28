@@ -198,7 +198,17 @@
                   v-on:click="guardar()"
                   label="to assign"
                   icon="pi pi-check"
+                  @click="addMessages()"
                 />
+
+                <transition-group name="p-message" tag="div">
+                  <Message
+                    v-for="msg of messages"
+                    :severity="msg.severity"
+                    :key="msg.id"
+                    >{{ msg.content }}</Message
+                  >
+                </transition-group>
               </span>
             </td>
           </tr>
@@ -260,6 +270,8 @@ import { $api } from "./Services/Api";
 export default {
   name: "VehiclesDrives",
   data: () => ({
+    messages: [],
+
     apiServices: $api.apiService,
     form: { driverId: "", date: "", vehicleId: "" },
 
@@ -319,7 +331,6 @@ export default {
   methods: {
     async openBasic(id) {
       this.assignmentHistory = await this.apiServices.getAssignmentHistory(id);
-
       this.displayBasic = true;
       this.form.vehicleId = id;
     },
@@ -334,6 +345,9 @@ export default {
     },
 
     async guardar() {
+      // const dateFrom = this.form.inputId;
+      // const driverFrom = this.form.options;
+
       const dataDriver = {
         driverId: this.form.driverId,
         vehicleId: this.form.vehicleId,
@@ -348,8 +362,30 @@ export default {
         );
       }
 
+      this.reset();
+    },
+
+    reset() {
       this.form.date = "";
       this.form.driverId = "";
+    },
+
+    addMessages() {
+      if ((this.form.date && this.form.driverId) === "") {
+        this.messages = [
+          {
+            severity: "info",
+            content: "Choose a driver and assign a date.",
+          },
+        ];
+      } else {
+        this.messages = [
+          {
+            severity: "info",
+            content: "The driver has been assigned successfully.",
+          },
+        ];
+      }
     },
   },
 };
